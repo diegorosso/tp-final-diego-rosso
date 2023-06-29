@@ -13,7 +13,9 @@
         <h3 class="modal-name">{{ selectedFood.name }}</h3>
         <p class="modal-desc">{{ selectedFood.desc }}</p>
       </div>
-      <button class="add-to-cart-button">Agregar a mi pedido</button>
+      <button @click="addToCart(selectedFood)" class="add-to-cart-button">
+        Agregar a mi pedido
+      </button>
     </div>
   </div>
 </template>
@@ -32,6 +34,9 @@ export default {
     },
   },
   methods: {
+    addToCart(food) {
+      this.$emit("add-to-cart", food); // Emitimos el evento "add-to-cart" al hacer clic en "Agregar al carrito"
+    },
     closeModal() {
       this.$emit("close-modal");
     },

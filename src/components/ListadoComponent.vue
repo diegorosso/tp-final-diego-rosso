@@ -23,13 +23,14 @@
       :showModal="showModal"
       @close-modal="closeModal"
       v-if="selectedFood !== null"
+      @add-to-cart="addToCart"
     />
   </div>
 </template>
 
 <script>
-import foodData from "@/assets/items.json";
 import InfoComponent from "@/components/InfoComponent.vue";
+import axios from "axios";
 
 export default {
   name: "ListadoComponent",
@@ -46,7 +47,16 @@ export default {
   },
   methods: {
     loadFoodData() {
-      this.foodList = foodData;
+      // Realizar la solicitud GET para listar los productos
+      axios
+        .get("https://649dd53f9bac4a8e669e60e7.mockapi.io/api/products")
+        .then((response) => {
+          this.foodList = response.data;
+        })
+        .catch((error) => {
+          alert("Error al cargar la lista de productos");
+          console.error(error);
+        });
     },
     showFoodModal(food) {
       this.selectedFood = food;

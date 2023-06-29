@@ -101,6 +101,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "LoginComponent",
   data() {
@@ -122,13 +124,31 @@ export default {
     },
     register(event) {
       event.preventDefault();
-      // lógica de registro de usuario
-      alert("Registro exitoso");
-      this.firstName = "";
-      this.lastName = "";
-      this.email = "";
-      this.newUsername = "";
-      this.newPassword = "";
+
+      // Datos del nuevo usuario
+      const newUser = {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        username: this.newUsername,
+        password: this.newPassword,
+      };
+
+      // Realizar la solicitud POST para crear el nuevo usuario
+      axios
+        .post("https://649dd53f9bac4a8e669e60e7.mockapi.io/api/users", newUser)
+        .then(() => {
+          alert("Registro exitoso");
+          this.firstName = "";
+          this.lastName = "";
+          this.email = "";
+          this.newUsername = "";
+          this.newPassword = "";
+        })
+        .catch((error) => {
+          alert("Error al registrar el usuario");
+          console.error(error);
+        });
     },
     toggleRegistrationForm() {
       this.showLoginForm = false;
