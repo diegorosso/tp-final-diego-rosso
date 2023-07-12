@@ -37,79 +37,22 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { mapState, mapActions } from 'vuex';
 
 export default {
-  name: "CarritoComponents",
-  data() {
-    return {
-      isOpen: false,
-      cartItems: [],
-    };
+  name: 'CarritoComponents',
+  computed: {
+    ...mapState(['cartItems', 'isOpen'])
   },
   methods: {
-    addToCart(food) {
-      if (this.cartItems.some((i) => i.name === food.name)) {
-        let product = this.cartItems.find((i) => i.name === food.name);
-        this.cartItems = this.cartItems.filter((i) => i.name !== food.name);
-        product.amount = Number(product.amount) + 1;
-        this.cartItems.push(product);
-      } else {
-        this.cartItems.push({ ...food, amount: 1 });
-      }
-
-      let carrito = {
-        userId: "sdflk4576",
-        createdDate: new Date(),
-        products: this.cartItems,
-        total: this.getTotal(this.cartItems)
-      }
-
-      // Realizar la solicitud POST para crear el carrito
-      axios
-        .post("https://649de6aa9bac4a8e669e70b3.mockapi.io/api/carrito", carrito)
-        .then(() => {
-            alert("Carrito agregado!")
-        })
-        .catch((error) => {
-          alert("Error al agregar el carrito");
-          console.error(error);
-        });
-      this.isOpen = true; // Mostrar el carrito al agregar un elemento
-    },
-    getTotal(products){
-      let total = 0;
-      for (let product of products){
-        total += Number(product.price) * Number(product.amount)
-      }
-      return total
-    },
-    removeFromCart(index) {
-      // Elimina la declaración de 'item' aquí
-
-      // Actualiza la lógica de eliminación
-      this.cartItems.splice(index, 1);
-
-      if (this.cartItems.length === 0) {
-        this.isOpen = false; // Ocultar el carrito cuando no haya elementos
-      }
-    },
+    ...mapActions(['addToCart', 'removeFromCart']),
     closeCart() {
       this.isOpen = false;
-      this.cartItems = [];
     },
-    toggleCart() {
-      this.isOpen = !this.isOpen; // Alternar la visibilidad del carrito al hacer clic en el icono de cierre
-    },
-  },
-  created() {
-    this.$root.$on("add-to-cart", this.addToCart);
-  },
-  beforeDestroy() {
-    this.$root.$off("add-to-cart", this.addToCart);
-  },
+  }
 };
 </script>
+
 
 <style scoped>
 .sidebar {

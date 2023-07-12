@@ -24,7 +24,11 @@
     <div>
       <LoginComponent v-if="showLoginForm" @close="closeLoginForm" />
       <div>
-        <CarritoComponents v-if="showCarritoForm" @close="closeCarritoForm" />
+        <CarritoComponents
+          v-if="showCarritoForm"
+          @close="closeCarritoForm"
+          ref="cart"
+        />
       </div>
     </div>
   </div>
@@ -51,14 +55,15 @@ export default {
       console.log("Se hizo clic en el icono del carrito");
       this.showCarritoForm = !this.showCarritoForm;
     },
-    closeCarritoForm() {
-      this.showCarritoForm = false;
-    },
     toggleLoginForm() {
       this.showLoginForm = !this.showLoginForm;
     },
     closeLoginForm() {
       this.showLoginForm = false;
+    },
+    closeCarritoForm() {
+      console.log("Evento close enviado desde NavBarComponents al CarritoComponents");
+      this.$refs.cart.toggleCart(); // Llamar al método toggleCart del componente CarritoComponent para ocultar el sidebar
     },
   },
 };

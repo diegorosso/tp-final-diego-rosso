@@ -23,51 +23,24 @@
       :showModal="showModal"
       @close-modal="closeModal"
       v-if="selectedFood !== null"
-      @add-to-cart="addToCart"
     />
   </div>
 </template>
 
 <script>
-import InfoComponent from "@/components/InfoComponent.vue";
-import axios from "axios";
+import InfoComponent from './InfoComponent.vue';
+import { mapActions, mapState } from 'vuex';
 
 export default {
-  name: "ListadoComponent",
-  components: { InfoComponent },
-  data() {
-    return {
-      foodList: [],
-      selectedFood: null,
-      showModal: false,
-    };
+  name: 'ListadoComponent',
+  components: {
+    InfoComponent
   },
-  mounted() {
-    this.loadFoodData();
+  computed: {
+    ...mapState(['foodList']),
   },
   methods: {
-    loadFoodData() {
-      // Realizar la solicitud GET para listar los productos
-      axios
-        .get("https://649dd53f9bac4a8e669e60e7.mockapi.io/api/products")
-        .then((response) => {
-          this.foodList = response.data;
-        })
-        .catch((error) => {
-          alert("Error al cargar la lista de productos");
-          console.error(error);
-        });
-    },
-    showFoodModal(food) {
-      this.selectedFood = food;
-      this.showModal = true;
-    },
-    closeFoodModal() {
-      this.showModal = false;
-    },
-    addToCart(food) {
-      this.$root.$emit("add-to-cart", food);
-    },
+    ...mapActions(['fetchFoodList', 'addToCart']),
     openModal(food) {
       this.selectedFood = food;
       this.showModal = true;
@@ -77,8 +50,18 @@ export default {
       this.showModal = false;
     },
   },
+  data() {
+    return {
+      selectedFood: null,
+      showModal: false,
+    };
+  },
+  created() {
+    this.fetchFoodList();
+  },
 };
 </script>
+
 
 <style scoped>
 .food-cards {
