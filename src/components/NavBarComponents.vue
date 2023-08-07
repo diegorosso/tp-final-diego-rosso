@@ -75,15 +75,18 @@ export default {
 .navbar {
   background-color: #343a40;
   height: 80px;
+  padding: 0 1rem; /* Añade algo de espacio horizontal */
 }
 
 .navbar-brand {
   font-weight: bold;
   color: #fff;
+  font-size: 1.5rem; /* Ajusta el tamaño de la tipografía para el título */
 }
 
 .navbar-nav .nav-link {
   color: #fff;
+  font-size: 1.2rem; /* Ajusta el tamaño de la tipografía para los enlaces */
 }
 
 .navbar-nav .nav-link:hover {
@@ -92,6 +95,7 @@ export default {
 
 .navbar-nav .nav-item i {
   font-size: 1.6rem;
+  vertical-align: middle; /* Alinea el icono con el texto del enlace */
 }
 
 .container {
@@ -103,10 +107,11 @@ export default {
 
 .ul-flex {
   display: flex;
+  align-items: center; /* Alinea los elementos de la lista verticalmente */
 }
 
 .padding-h2 {
-  padding: 1rem;
+  margin-bottom: 0; /* Elimina el espacio adicional debajo del título */
 }
 
 .padding-1 {
@@ -114,5 +119,6 @@ export default {
 }
 ul li {
   list-style: none;
+  margin-right: 1rem; /* Añade algo de espacio a la derecha de cada elemento de la lista */
 }
 </style>
